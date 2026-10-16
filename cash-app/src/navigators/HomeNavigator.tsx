@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { TopBar } from "../components/top-bar/top-bar-feature";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
-import { DefaultTheme, PaperProvider, useTheme } from "react-native-paper";
+import { MD3DarkTheme as DefaultTheme, PaperProvider } from "react-native-paper";
 import PayScreen from "../screens/PayScreen";
 import { ScanScreen, HomeScreen, ActivityScreen } from "../screens";
 const Tab = createBottomTabNavigator();

@@ -2,7 +2,10 @@
 import "./src/polyfills";
 
 import { StyleSheet, useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+} from "react-native-safe-area-context";
 
 import { ConnectionProvider } from "./src/utils/ConnectionProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -45,6 +48,7 @@ export default function App() {
     },
   };
   return (
+    <SafeAreaProvider>
     <QueryClientProvider client={queryClient}>
       <ClusterProvider>
         <ConnectionProvider config={{ commitment: "processed" }}>
@@ -72,6 +76,7 @@ export default function App() {
         </ConnectionProvider>
       </ClusterProvider>
     </QueryClientProvider>
+    </SafeAreaProvider>
   );
 }
 
