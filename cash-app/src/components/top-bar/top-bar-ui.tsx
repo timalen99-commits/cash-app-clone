@@ -3,6 +3,7 @@ import { Account, useAuthorization } from "../../utils/useAuthorization";
 import { useMobileWallet } from "../../utils/useMobileWallet";
 import { useNavigation } from "@react-navigation/native";
 import { ellipsify } from "../../utils/ellipsify";
+import { alertAndLog } from "../../utils/alertAndLog";
 import { useState } from "react";
 import * as Clipboard from "expo-clipboard";
 import { Linking } from "react-native";
@@ -16,12 +17,22 @@ export function TopBarWalletButton({
   openMenu: () => void;
 }) {
   const { connect } = useMobileWallet();
+  const handleConnect = async () => {
+    try {
+      await connect();
+    } catch (err: any) {
+      alertAndLog(
+        "Error during connect",
+        err instanceof Error ? err.message : err
+      );
+    }
+  };
   return (
     <Button
       icon="wallet"
       mode="contained-tonal"
       style={{ alignSelf: "center" }}
-      onPress={selectedAccount ? openMenu : connect}
+      onPress={selectedAccount ? openMenu : handleConnect}
     >
       {selectedAccount
         ? ellipsify(selectedAccount.publicKey.toBase58())
@@ -91,7 +102,14 @@ export function TopBarWalletMenu() {
       />
       <Menu.Item
         onPress={async () => {
-          await disconnect();
+          try {
+            await disconnect();
+          } catch (err: any) {
+            alertAndLog(
+              "Error during disconnect",
+              err instanceof Error ? err.message : err
+            );
+          }
           closeMenu();
         }}
         title="Disconnect"

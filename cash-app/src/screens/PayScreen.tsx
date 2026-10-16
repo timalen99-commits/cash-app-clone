@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  useWindowDimensions,
+} from "react-native";
 import { Button } from "react-native-paper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigators/AppNavigator";
@@ -17,6 +24,8 @@ type Props = {
 const App: React.FC<Props> = ({ navigation }) => {
   const [inputValue, setInputValue] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const { height } = useWindowDimensions();
+  const compact = height < 760;
 
   // Function to handle input from keypad
   const handleInput = (value: string) => {
@@ -92,7 +101,13 @@ const App: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <CurrencySelectorModal />
       <View style={styles.displayContainer}>
-        <Text style={styles.displayText}>${inputValue || "0"}</Text>
+        <Text
+          style={[styles.displayText, compact && { fontSize: 48 }]}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+        >
+          ${inputValue || "0"}
+        </Text>
         <TouchableOpacity
           style={{ position: "relative", marginTop: 15 }}
           onPress={() => setModalVisible(true)}
@@ -107,7 +122,7 @@ const App: React.FC<Props> = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.keypad}>
+      <View style={[styles.keypad, compact && styles.keypadCompact]}>
         <View style={styles.row}>
           {[1, 2, 3].map((number) => (
             <NumberButton key={number} number={number.toString()} />
@@ -126,8 +141,16 @@ const App: React.FC<Props> = ({ navigation }) => {
         <View style={styles.row}>
           <NumberButton number="." />
           <NumberButton number="0" />
-          <TouchableOpacity style={styles.button} onPress={handleBackspace}>
-            <Text style={styles.buttonText}>⌫</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleBackspace}
+            accessibilityLabel="Backspace"
+          >
+            <MaterialCommunityIcon
+              name="backspace-outline"
+              size={26}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -173,6 +196,11 @@ const styles = StyleSheet.create({
   },
   keypad: {
     paddingBottom: 30,
+  },
+  keypadCompact: {
+    paddingBottom: 8,
+    transform: [{ scale: 0.85 }],
+    marginVertical: -24,
   },
   row: {
     flexDirection: "row",

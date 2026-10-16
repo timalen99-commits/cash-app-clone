@@ -19,11 +19,11 @@ import { AddFriend } from "./add-friend-ui";
 export function ActivityFeature() {
   const { selectedAccount } = useAuthorization();
   const [modalVisible, setModalVisible] = useState(false);
+  const theme = useTheme();
 
   if (!selectedAccount) {
     return null;
   }
-  const theme = useTheme();
 
   return (
     <>

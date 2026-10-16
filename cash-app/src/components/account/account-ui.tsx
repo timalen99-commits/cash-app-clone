@@ -360,6 +360,7 @@ export function AccountButtonGroup({ address }: { address: PublicKey }) {
         <Button
           mode="contained"
           style={styles.sideButton}
+          labelStyle={styles.sideButtonLabel}
           onPress={() => setAddModalVisible(true)}
         >
           Add Cash
@@ -367,6 +368,7 @@ export function AccountButtonGroup({ address }: { address: PublicKey }) {
         <Button
           mode="contained"
           style={styles.sideButton}
+          labelStyle={styles.sideButtonLabel}
           onPress={() => setOutModalVisible(true)}
         >
           Cash Out
@@ -759,6 +761,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-evenly",
+    alignSelf: "stretch",
     marginTop: 20,
   },
   sideButton: {
@@ -770,6 +773,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     justifyContent: "center",
     borderRadius: 50,
+  },
+  sideButtonLabel: {
+    marginHorizontal: 8,
+    color: "#ffffff",
   },
   modalButton: {
     marginLeft: 6,
